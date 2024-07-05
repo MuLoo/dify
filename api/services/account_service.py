@@ -246,7 +246,7 @@ class TenantService:
 
         if available_ta:
             return
-
+        # 这里默认创建了一个tenant
         tenant = TenantService.create_tenant(f"{account.name}'s Workspace")
         TenantService.create_tenant_member(tenant, account, role='owner')
         account.current_tenant = tenant
