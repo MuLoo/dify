@@ -1,4 +1,5 @@
 'use client'
+
 import { useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import { useBoolean } from 'ahooks'
@@ -38,8 +39,7 @@ const Header = () => {
   const handlePlanClick = useCallback(() => {
     if (isFreePlan)
       setShowPricingModal()
-    else
-      setShowAccountSettingModal({ payload: 'billing' })
+    else setShowAccountSettingModal({ payload: 'billing' })
   }, [isFreePlan, setShowAccountSettingModal, setShowPricingModal])
 
   useEffect(() => {
@@ -47,41 +47,45 @@ const Header = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSegment])
   return (
-    <div className='flex flex-1 items-center justify-between px-4'>
-      <div className='flex items-center'>
-        {isMobile && <div
-          className='flex items-center justify-center h-8 w-8 cursor-pointer'
-          onClick={toggle}
-        >
-          <Bars3Icon className="h-4 w-4 text-gray-500" />
-        </div>}
-        {!isMobile && <>
-          <Link href="/apps" className='flex items-center mr-4'>
-            <LogoSite className='object-contain' />
-          </Link>
-          <GithubStar />
-        </>}
+    <div className="flex flex-1 items-center justify-between px-4">
+      <div className="flex items-center">
+        {isMobile && (
+          <div
+            className="flex items-center justify-center h-8 w-8 cursor-pointer"
+            onClick={toggle}
+          >
+            <Bars3Icon className="h-4 w-4 text-gray-500" />
+          </div>
+        )}
+        {!isMobile && (
+          <>
+            <Link href="/apps" className="flex items-center mr-4">
+              <LogoSite className="object-contain" />
+            </Link>
+            <GithubStar />
+          </>
+        )}
       </div>
       {isMobile && (
-        <div className='flex'>
-          <Link href="/apps" className='flex items-center mr-4'>
+        <div className="flex">
+          <Link href="/apps" className="flex items-center mr-4">
             <LogoSite />
           </Link>
           <GithubStar />
         </div>
       )}
       {!isMobile && (
-        <div className='flex items-center'>
+        <div className="flex items-center">
           <ExploreNav className={navClassName} />
           <AppNav />
           {isCurrentWorkspaceEditor && <DatasetNav />}
           <ToolsNav className={navClassName} />
         </div>
       )}
-      <div className='flex items-center flex-shrink-0'>
+      <div className="flex items-center flex-shrink-0">
         <EnvNav />
         {enableBilling && (
-          <div className='mr-3 select-none'>
+          <div className="mr-3 select-none">
             <HeaderBillingBtn onClick={handlePlanClick} />
           </div>
         )}
@@ -89,8 +93,8 @@ const Header = () => {
           <AccountDropdown isMobile={isMobile} />
         </WorkspaceProvider>
       </div>
-      {(isMobile && isShowNavMenu) && (
-        <div className='w-full flex flex-col p-2 gap-y-1'>
+      {isMobile && isShowNavMenu && (
+        <div className="w-full flex flex-col p-2 gap-y-1">
           <ExploreNav className={navClassName} />
           <AppNav />
           {isCurrentWorkspaceEditor && <DatasetNav />}
