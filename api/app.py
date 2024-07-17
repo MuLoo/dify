@@ -97,7 +97,8 @@ def create_flask_app_with_configs() -> Flask:
 
 def create_app() -> Flask:
     app = create_flask_app_with_configs()
-
+    # 允许所有域名跨域
+    CORS(app, resources={r"/*": {"origins": "*"}})
     app.secret_key = app.config['SECRET_KEY']
 
     log_handlers = None
@@ -200,6 +201,9 @@ def register_blueprints(app):
     from controllers.web import bp as web_bp
 
     CORS(service_api_bp,
+         resources={
+             r"/*": {"origins": app.config['WEB_API_CORS_ALLOW_ORIGINS']}},
+         supports_credentials=True,
          allow_headers=['Content-Type', 'Authorization', 'X-App-Code'],
          methods=['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS', 'PATCH']
          )
@@ -223,7 +227,7 @@ def register_blueprints(app):
          allow_headers=['Content-Type', 'Authorization'],
          methods=['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS', 'PATCH'],
          expose_headers=['X-Version', 'X-Env']
-         )
+        )
 
     app.register_blueprint(console_app_bp)
 
@@ -238,6 +242,7 @@ def register_blueprints(app):
 
 # create app
 app = create_app()
+CORS(app)
 celery = app.extensions["celery"]
 
 if app.config.get('TESTING'):

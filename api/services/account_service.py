@@ -208,7 +208,9 @@ class AccountService:
             AccountService.update_last_login(account, ip_address=ip_address)
         exp = timedelta(days=30)
         token = AccountService.get_account_jwt_token(account, exp=exp)
+        print(f'is this error before? {redis_client}')
         redis_client.set(_get_login_cache_key(account_id=account.id, token=token), '1', ex=int(exp.total_seconds()))
+        print('is this error after?')
         return token
 
     @staticmethod
